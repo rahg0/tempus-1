@@ -13,18 +13,32 @@ jobs:
     name: IaC Scan - Orca
     runs-on: ubuntu-latest
     steps:
-      # Vendor-recommended checkout step
-      - name: Checkout Repository
+      # Checkout tempus-2 repo
+      - name: Checkout tempus-2 Repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
+          path: tempus-2
+          
+      # Checkout tempus-1 repo
+      - name: Checkout tempus-1 Repository
+        uses: actions/checkout@v5
+        with:
+          repository: rahg0/tempus-1
+          ref: main
+          path: tempus-1
 
       # Vendor-recommended diagnostic step
       - name: Listing files
         run: |
           echo "Listing all the files...."
           ls -lah
+          echo "Listing all the files...."
+          ls -lahR tempus-1
+          echo "Listing all the files...."
+          ls -lahR tempus-2
+          
           echo "Listing .github directory..."
           ls -lah .github/
           echo "Listing .github/workflows directory..."
