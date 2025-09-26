@@ -19,7 +19,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-          path: tempus-2
           
       # Checkout tempus-1 repo
       - name: Checkout tempus-1 Repository
@@ -34,20 +33,23 @@ jobs:
         run: |
           echo "Listing all the files...."
           ls -lah
-          echo "Listing all the files...."
-          ls -lahR tempus-1
-          echo "Listing all the files...."
-          ls -lahR tempus-2
           
+          echo "Listing tempus-1/.github directory..."
+          ls -lah tempus-1/.github/
+          echo "Listing tempus-1/.github/workflows directory..."
+          ls -lah tempus-1/.github/workflows/
+          echo "Listing production-custom-queries directory..."
+          ls -lah tempus-1/.github/workflows/non-production-custom-queries/
+          echo "Listing gcp-owner-role directory..."
+          ls -lah tempus-1/.github/workflows/non-production-custom-queries/gcp-owner-role
+
+
           echo "Listing .github directory..."
           ls -lah .github/
           echo "Listing .github/workflows directory..."
           ls -lah .github/workflows/
-          echo "Listing production-custom-queries directory..."
-          ls -lah .github/workflows/non-production-custom-queries/
-          echo "Listing gcp-owner-role directory..."
-          ls -lah .github/workflows/non-production-custom-queries/gcp-owner-role
 
+          
       - name: Run Orca IaC Scan
         uses: orcasecurity/shiftleft-iac-action@v1
         id: orca_scan
@@ -57,4 +59,4 @@ jobs:
           path: ${{ inputs.path }}
           format: "cli,sarif"
           output: "results/"
-          custom_controls: "./.github/workflows/non-production-custom-queries/gcp-owner-role"
+          custom_controls: "tempus-1/.github/workflows/non-production-custom-queries/gcp-owner-role"
